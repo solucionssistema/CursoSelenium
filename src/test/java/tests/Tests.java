@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 
 import helpers.Helpers;
 import pages.PageLogin;
+import pages.PageLogon;
+import pages.PageReservation;
 
 public class Tests {
 	
@@ -29,15 +31,17 @@ public class Tests {
 	@Test
 	public void pruebaUno() {
 		PageLogin pageLogin= new PageLogin(driver);
-		pageLogin.login("mercury", "mercury", "Prueba Uno");
-		Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p/font/b")).getText().contains("Welcome back to"));
+		PageLogon pageLogon= new PageLogon(driver);
+		pageLogin.login("user", "user", "Prueba Uno");
+		pageLogon.assertLogonPage();
 	}
 	
 	@Test
 	public void pruebaDos() {
 		PageLogin pageLogin= new PageLogin(driver);
-		pageLogin.login("user", "user", "Prueba Dos");
-		Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/font")).getText().contains("Use our Flight Finder "));
+		PageReservation pageReservation = new PageReservation(driver);
+		pageLogin.login("mercury", "mercury", "Prueba Dos");
+		pageReservation.assertPage();
 	}
 	
 	@AfterMethod
