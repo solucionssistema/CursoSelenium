@@ -9,6 +9,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import helpers.Helpers;
+import pages.PageLogin;
+
 public class Tests {
 	
 	private WebDriver driver;
@@ -19,24 +22,22 @@ public class Tests {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.navigate().to("http://newtours.demoaut.com/");
-		try {
-			Thread.sleep(5000);
-		}catch(InterruptedException e) {
-			e.printStackTrace();
-		}
+		Helpers helper = new Helpers();
+		helper.sleepSeconds(4);
 	}
 	
 	@Test
 	public void pruebaUno() {
-		driver.findElement(By.name("userName")).sendKeys("user");
-		driver.findElement(By.name("password")).sendKeys("user");
-		driver.findElement(By.name("login")).click();
-		try {
-			Thread.sleep(5000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		PageLogin pageLogin= new PageLogin(driver);
+		pageLogin.login("mercury", "mercury", "Prueba Uno");
 		Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p/font/b")).getText().contains("Welcome back to"));
+	}
+	
+	@Test
+	public void pruebaDos() {
+		PageLogin pageLogin= new PageLogin(driver);
+		pageLogin.login("user", "user", "Prueba Dos");
+		Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/font")).getText().contains("Use our Flight Finder "));
 	}
 	
 	@AfterMethod
